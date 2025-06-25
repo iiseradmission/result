@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IISER Results 2025</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            background-color: #E5E5E5;
+        }
+
+        .page-container {
+            display: flex;
+            flex-direction: row;
+            padding: 40px; /* Space from top and left */
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-left-heading {
+            font-size: 1.5em; /* H2 size */
+            margin-bottom: 20px;
+        }
+
+        .image-container img {
+            width: 842px;
+            height: 1191px;
+            display: block;
+            border: 1px solid #ccc;
+        }
+
+        .button-container {
+            margin-left: 40px;
+            margin-top: 40px; /* 40px below top of page */
+            height: fit-content;
+        }
+
+        #downloadBtn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #downloadBtn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <div class="content">
+            <h2 class="top-left-heading">IISER Results 2025</h2>
+            <div class="image-container">
+                <img id="resultImage" src="https://i.ibb.co/vx33G3Sr/25-IAT058398-2.jpg" alt="IISER Result">
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button id="downloadBtn">Download It</button>
+        </div>
+    </div>
+
+    <!-- jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', async () => {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'px',
+                format: [842, 1191] // A3 size in pixels at 72 DPI
+            });
+
+            const img = document.getElementById('resultImage');
+            const imageData = await getImageDataURL(img.src);
+
+            pdf.addImage(imageData, 'JPEG', 0, 0, 842, 1191);
+            pdf.save('25IAT058398.pdf');
+        });
+
+        function getImageDataURL(url) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = this.width;
+                    canvas.height = this.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(this, 0, 0);
+                    resolve(canvas.toDataURL('image/jpeg', 1.0));
+                };
+                img.src = url;
+            });
+        }
+    </script>
+</body>
+</html>
