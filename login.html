@@ -1,0 +1,597 @@
+
+<!DOCTYPE html> 
+
+<html>
+ <head>
+ <!-- jQuery include : starts -->
+
+<!-- jQuery include : ends -->
+  
+<link id="favicon" rel="shortcut icon" type="image/png" href="" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" type="text/css" href="https://cdn.digialm.com//captchaservice/css/captchaservice.css?v=341" />
+		 
+<link rel="stylesheet" type="text/css" href="https://cdn.digialm.com//EForms/css/onlineApplicationForm/jquery.tabs.css?v=341" />	
+
+<link rel="stylesheet" href="https://cdn.digialm.com//EForms/css/onlineApplicationForm/form92721/main.css?v=341" type="text/css" />
+
+<link rel="stylesheet" type="text/css"
+    href="https://cdn.digialm.com//EForms/css/onlineApplicationForm/loader.css?v=341" />
+    
+<!-- cryptojs : starts -->
+<script type="text/javascript" src="https://cdn.digialm.com//EForms/js/onlineAppForm/crypto-js.min.js?v=341"></script>
+<!-- cryptojs : ends -->
+
+<!-- forge : starts -->
+<script type="text/javascript" src="https://cdn.digialm.com//EForms/js/onlineAppForm/forge.min.js?v=341"></script>
+<!-- forge : ends -->
+ 		
+
+		 <script type="text/javascript" src="https://cdn.digialm.com//EForms/js/onlineAppForm/jquery-1.11.1.min.js?v=341"></script>
+		 
+		 <script type="text/javascript" src="https://cdn.digialm.com//EForms/js/onlineAppForm/jquery-migrate-1.2.1.min.js?v=341"></script>
+		 
+		 <script type="text/javascript" src="https://cdn.digialm.com//EForms/js/onlineAppForm/jquery-ui-1.10.4.min.js?v=341"></script>
+		 
+		 <script type="text/javascript" src="https://cdn.digialm.com//EForms/js/onlineAppForm/jquery.tabs.pack.js?v=341"></script>
+		 
+		 <script type="text/javascript" src="https://cdn.digialm.com//captchaservice/js/captchaService.js?v=341"></script>
+		 
+		 <script type="text/javascript" src="https://cdn.digialm.com//EForms/js/onlineAppForm/formMaster.js?v=341"></script>
+		 
+ 	
+	
+<script src='https://cdn.digialm.com//EForms/js/onlineAppForm/form92721.js?v=341' type="text/javascript"></script>
+
+<script type="text/javascript"
+	src="https://cdn.digialm.com//EForms/js/onlineAppForm/newLoader.js?v=341"></script>
+
+ 
+
+
+<script src="https://cdn.digialm.com//EForms/js/onlineAppForm/jsencrypt.js"></script>
+
+
+
+<script>	
+
+
+ $(document).ready(function(){
+	resetCookieFW();
+	 $.extend({
+	     getUrlVars: function(){
+	       var vars = [], hash;
+	       var hashes = window.location.search.slice(window.location.search.indexOf('?') + 1).split('&');
+	       for(var i = 0; i < hashes.length; i++)
+	       {
+	         hash = hashes[i].split('=');
+	         vars.push(hash[0]);
+	         vars[hash[0]] = hash[1];
+	       }
+	       return vars;
+	     },
+	     getUrlVar: function(name){
+	       return $.getUrlVars()[name];
+	     }
+	   });
+	 
+		var redirectToOtherSoln = $.getUrlVar('action');
+		if(redirectToOtherSoln!=undefined && redirectToOtherSoln=="redirectToLX"){
+			var allVars = $.getUrlVars();
+			for(var i=0;i<allVars.length;i++){
+				document.cookie=allVars[i]+"_iONEForms="+$.getUrlVar(allVars[i])+"; path=/";
+			}
+		}
+		
+ });
+ 
+
+		</script>
+ <script type="text/javascript">
+function clearBrowserCache(){
+	//Page.ClientScript.RegisterStartupScript(this.GetType(),"cle","windows.history.clear",true);
+	//Response.Cache.SetCacheability(HttpCacheability.NoCache);
+	//Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+	//Response.Cache.SetNoStore();
+}
+function resetCookieFW(){
+	var now = new Date();
+    now.setMonth( now.getMonth() - 1 );
+	document.cookie="action_iONEForms= ; expires="+now.toUTCString() +"; path=/";
+	//request.getSession().invalidate();
+}
+	 
+function loader(){
+	document.getElementById('loaderElementToPage').style.display="";
+}
+function fnNormalChangePassword(){
+	if(document.getElementById("userid").value == ''){
+		alert("Please Enter 'Application Sequence Number/User Id'. ");
+		return false;
+	}else if(document.getElementById("confData").value == ''){
+		alert("Please Enter 'Password'. ");
+		return false;
+	}else{
+		var appSequenceNo=document.getElementById("userid").value;
+		document.loginForm.method="POST";
+		document.loginForm.action="https://cdn.digialm.com//EForms/loginAction.do?subAction=ValidateUser&normalPwdChange=Y";
+		document.loginForm.submit();
+	}
+}
+function showChangePwdMsg(){
+	//alert("1");
+	//alert("changePwd_success::"+document.getElementById("changePwd_success").value);
+	if(document.getElementById("changePwd_success").value == 'Y'){
+		alert("Your Password has been changed successfully. Please login again.");
+		
+		fnLogoutAfterChangepwd();
+	}
+	else if(document.getElementById("changePwd_success").value == 'N')
+		{
+		alert("Your Password did not changed. Please try again.");
+		}
+}
+function fnLogoutAfterChangepwd(Message){
+	//alert("Entered in fnLogoutAfterChangepwd");
+	//getLogoutFlow();
+	if(Message==undefined || Message==null){
+		Message="";
+	}
+	
+	document.forms[0].method="POST";
+	document.forms[0].action="https://cdn.digialm.com//EForms/loginAction.do?subAction=LogoutPostChangePwd";
+	document.forms[0].submit();
+}
+
+function setHashValue()
+{
+
+
+ 
+  var tempString='';
+ var tempStringArray=tempString.split('--@@js@@--');
+ var mydivelement=""
+ for(var i=0;i<tempStringArray.length-1;i++)
+ {
+   var input="<input type='hidden' id='hash"+i+"' name='hash"+i+"' value='"+tempStringArray[i]+"'/>";
+    mydivelement=mydivelement+input;        
+ 
+ }
+ document.getElementById('mydiv').innerHTML=mydivelement;
+ 
+ if(typeof window.setValue == 'function') {
+	// function exists, so we can now call it
+	setValue();
+	
+}
+
+}
+</script>
+
+	<!-- <script language='javascript'>
+	       
+		   function hideloader()
+			{
+				 $('#loaderElementToPage').hide();
+			}
+			
+			
+	</script> -->
+ </head>
+
+<body onload="setHashValue();hideloader();clearBrowserCache();showChangePwdMsg();" onpageshow="if (event.persisted) noBack();" onunload="">
+
+  <form name="loginForm" method="post" action="https://cdn.digialm.com//EForms/loginAction.do" enctype="multipart/form-data">
+
+   
+  
+  
+
+ 
+  
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.digialm.com//EForms/css/onlineApplicationForm/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.digialm.com//EForms/css/onlineApplicationForm/bootstrap-select.min.css">
+<!-- <link rel='stylesheet' type='text/css' href='/captchaservice/css/captchaservice.css' />
+<script type="text/javascript" src="/captchaservice/js/captchaService.js"></script> -->
+<script type="text/javaScript" src="https://cdn.digialm.com//captchaservice2/js/captchaservice.js"></script>
+<link href="https://cdn.digialm.com//captchaservice2/css/captchaservice.css" rel="stylesheet">
+<script type="text/javascript" src="https://cdn.digialm.com//EForms/js/onlineAppForm/ChangePasswordCustom.js"></script>
+<script type="text/javascript" src="https://cdn.digialm.com//EForms/js/onlineAppForm/bootstrap-select.js"></script>
+<script type="text/javascript" src="https://cdn.digialm.com//EForms/js/onlineAppForm/bootstrap.js"></script>
+<link rel='stylesheet' type='text/css' href='https://cdn.digialm.com//EForms/css/font-awesome.min.css' />
+<script type="text/javascript">
+    $(document).ready(function () {
+        var abc = window.location.href;
+        if (abc.includes("tcsion")) {
+            var pqr = abc.replaceAll("tcsion", "digialm");
+            var ghi = pqr.replaceAll("g06", "cdn");
+            window.location.href = ghi;
+        }
+        // if (abc.includes("g06")) {
+        //     var ghi = abc.replaceAll("g06", "cdn");
+        //     window.location.href = ghi;
+        // }
+        $('input, :input focus').attr('autocomplete', 'off');
+        setTimeout("checkBrowser()", 1000);
+        $(".toggle-password").click(function () {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+    });
+    $('input, :input').attr('autocomplete', 'off');
+    $(function () {
+        $('.input').on('click', function () {
+            if ($(this).val() == "") {
+                $(this).addClass('borderredcolor');
+            } else {
+                $(this).removeClass('borderredcolor');
+            }
+        });
+        $('.input').on('blur', function () {
+            if ($(this).val() != "") {
+                $(this).removeClass('borderredcolor');
+                $(this).css('color', '#333');
+            }
+        });
+        $('input').on('blur', function () {
+            if ($(this).val() != "") {
+                $(this).css('color', '#333');
+            }
+        });
+        $('input').on("keypress", function () {
+            $(this).removeClass('borderredcolor');
+            $(this).css('color', '#333');
+        });
+    });
+    function forpwd() {
+        $('#forgotPwdDiv').show();
+        $('#changepwd').hide();
+        $('#log').hide();
+
+        $('.forgot').attr('id', 'captchaHolder');
+        $('.login').removeAttr('id', 'loginCaptchaHolder');
+        $('.login').html('');
+        captchaService.initCaptcha('captchaHolder', 1, 1, 'defaultCaptcha');
+      init_NewCaptcha();
+
+    }
+    function chnpwd() {
+        $('#changepwd').show();
+        $('#forgotPwdDiv').hide();
+        $('#log').hide();
+    }
+
+    function callValidateEFormsFWIonCaptchaForForgotPWD() {
+		if ($("#useridForgotPwd").val() == null || $("#useridForgotPwd").val() == "") {
+			alert("Please enter User Id.");
+			return false;
+		}
+		else {
+			// validateEFormsFWIonCaptchaForForgotPWD('forgotPassword');
+			validateIonCaptchaForgot_InURL_withDivNew('forgotPassword', 'captchaHolder', 'defaultCaptcha', 1);
+		}
+	}
+    function log() {
+        $('#forgotPwdDiv').hide();
+        $('#changepwd').hide();
+        $('#log').show();
+        $('.forgot').removeAttr('id', 'captchaHolder');
+        $('.login').attr('id', 'loginCaptchaHolder');
+        $('.forgot').html('');
+        // init_captcha_login();
+        captchaService.initCaptcha('loginCaptchaHolder', 1, 1, 'defaultCaptcha');
+      // init_captcha_login();
+      init_NewCaptcha();
+
+    }
+    function showForgotPwd() {
+        document.getElementById('forgotPwdDiv').style.display = '';
+    }
+    function customLogin() {
+        if ($("#userid").val() == "") {
+            input_if("userid", "Please Enter USER ID.");
+        }
+        else if ($("#confData").val() == "") {
+            input_if("confData", "Please Enter PASSWORD.");
+        } else {
+            // fnLogin();
+            fnLoginNew_captcha('loginCaptchaHolder','defaultCaptcha');
+        }
+    }
+
+    function fnLogin() {
+        if ($('#loginCaptchaHolder').length) {
+            var key = $('#loginCaptchaHolder #captchaService_imageKey').val();
+            var answer = $('#loginCaptchaHolder #captchaService_answer').val();
+            if (answer == '') { input_if("loginCaptchaHolder", "Please enter the Captcha."); return false; }
+
+            $.post("/EForms/IonCaptchaValidation", { "captchaService_imageKey": key, "captchaService_answer": answer, 'appId': 30 }).done(function (check) {
+                if (check.indexOf('Valid') === -1) {
+                    input_if("loginCaptchaHolder", "Please enter correct text shown in image"); init_captcha_login();
+                    return false;
+                }
+                setTimeout(loader, 1000);
+                document.loginForm.method = "POST";
+                document.loginForm.action = "https://cdn.digialm.com//EForms/loginAction.do?subAction=ValidateUser";
+                document.loginForm.submit();
+            });
+        }
+    }
+
+</script>
+<bean:define id="orgId" name="loginForm" property="orgId" />
+<bean:define id="formId" name="loginForm" property="formId" />
+<html:html>
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <title>Applicant Login</title>
+    </head>
+    <html:body>
+        <html:form name="formL">
+            <div class="efrmgen-login-container">
+                <header class="efrmgen-header">
+                    <div class="efrmgen-container">
+                        <div class="efrmgen-topheader">
+                            <div class="efrmgen-fullbanner"></div>
+                            <div class="efrmgen-banner-wrapper hidden">
+                                <div class="efrmgen-image"></div>
+                                <div class="efrmgen-text">Application View</div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <div class="container-fluid ">
+                    <div class="alert alert-danger hidden notifheading ">
+                        <p>Notfications text if any</p>
+                    </div>
+                    <div class="efrmgen-login-wrapper wrpdashboard">
+                        <div id="log" class="row">
+                            <div class="col-xs-12">
+                                <h3 class="efrmgen-heading">Login</h3>
+                                <div class="efrmgen-flexrow-two">
+                                    <div class="rightblock" style="padding: 0px 20px 10px 20px;">
+                                        <div class="notes" style="color:red;" align="center" id="ERROR_PLACE_DIV"></div>
+                                        <div class="efrmgen-text-wrapper">
+                                            <h4 class="ef-mb-20 ef-text-color-black">
+                                            </h4>
+                                        </div>
+                                        <div class="container-fluid">
+                                            <div class="row efrmgen-flexrow-two">
+                                                <div class="col-xs-12">
+                                                    <div class="form-group">
+                                                        <label for="userid" class="efrmgen-label">USER
+                                                            ID:<sup>*</sup></label>
+                                                        <input type="text" class="form-control efrmgen-input"
+                                                            placeholder="Enter User ID" id="userid" name="userid"
+                                                            maxlength="80"
+                                                            onkeypress="return onlyAlphaNumWithSChar(this,event);"
+                                                            autocomplete="off">
+                                                        <span class="max-counter pull-right"
+                                                            style="display: none;"></span>
+                                                        <span class="errortxt"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="confData"
+                                                            class="efrmgen-label">PASSWORD:<sup>*</sup></label>
+                                                        <div class="pass-field">
+                                                            <input type="password" class="form-control efrmgen-input"
+                                                                placeholder="Enter Password" id="confData"
+                                                                name="confData" maxlength="80" autocomplete="off">
+                                                            <span class="max-counter pull-right"
+                                                                style="display: none;"></span>
+                                                            <span toggle="#confData"
+                                                                class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                                        </div>
+                                                        <span class="errortxt"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12" id="capcha">
+                                                    <div class="col-md-5"
+                                                        style="align-text:center;height:inherit;width:100%"
+                                                        align="center">
+                                                        <div id="loginCaptchaHolder" class="login"
+                                                            style="padding-left:0px;"></div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-xs-12">
+                                                    <a href="#" id="loginsubmit"
+                                                        style="margin-top: 10px;" onclick="customLogin();"
+                                                        class="btn efrmgen-common-btn efrmgen-common-btn-single" target="#">Login</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="reg" style="text-align: center; margin: 10px 0px;">
+                                            New?
+                                            <a class="" target="_blank" id=""
+                                                href="/EForms/configuredHtml/2245/92721/Registration.html"
+                                                style="margin-left:0px;"> Register Here</a>
+                                            | Return to
+                                            <a class="" target="_blank" id=""
+                                                href="/EForms/configuredHtml/2245/92721/Index.html"
+                                                style="margin-left:0px;"> Home</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="efrmgen-submit-wrapper efrmgen-flexrow-two">
+                                            <a href="javascript:void(0)" id=""
+                                                onclick="showForgotPwd();init_NewCaptcha();forpwd();"
+                                                class="btn efrmgen-common-btn">Forgot Password</a>
+                                            <a href="/EForms/loginAction.do?subAction=CandidateChangePassword&orgId=2245&formId=92721"
+                                                id="" onclick="changepwd()" class="btn efrmgen-common-btn">Change
+                                                Password</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="forgotPwdDiv" class="row" style="display: none;">
+                            <div class="col-xs-12">
+                                <h3 class="efrmgen-heading">Forgot Password</h3>
+                                <div class="efrmgen-flexrow-two">
+                                    <div class="rightblock">
+                                        <div class="notes" style="color:red;" align="center" id="myDiv"></div>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <div class="form-group">
+                                                        <label for="useridForgotPwd" class="efrmgen-label">Please enter
+                                                            your User Id:<sup class="">*</sup></label>
+                                                        <input type="text" class="form-control efrmgen-input"
+                                                            placeholder="Please enter your User Id"
+                                                            id="useridForgotPwd" name="useridForgotPwd" maxlength="80"
+                                                            autocomplete="off">
+                                                        <span class="errortxt"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row efrmgen-flexrow-two">
+                                                <div class="col-xs-12" id="capcha">
+                                                    <div id="captchaHolder" style="padding-left:0px;"
+                                                        class="efrmgen-flexrow-two">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12" style="margin-left:15px;height:inherit;">
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <label id="myDiv" class="" style="color:red;"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <a href="javascript:void(0)"
+                                                    onclick="callValidateEFormsFWIonCaptchaForForgotPWD();"
+                                                    class="btn efrmgen-common-btn efrmgen-common-btn-single">Forgot Password</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="efrmgen-submit-wrapper efrmgen-flexrow-two">
+                                            <a href="javascript:void(0)" onclick="log();"
+                                                class="btn efrmgen-common-btn">Login</a>
+                                            <a href="/EForms/loginAction.do?subAction=CandidateChangePassword&orgId=2245&formId=92721"
+                                                id="loginsubmit" onclick="changepwd()"
+                                                class="btn efrmgen-common-btn">Change
+                                                Password</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="version-tag-login" class="hinttext text-center"></div>
+            </div>
+            <input type="hidden" id="confData" name="confData">
+            <span style="display:none;" id="loader-indicator" name="loader-indicator"> </span>
+            <input type="hidden" id="error_message" name="error_message" value='* Incorrect Credentials.' />
+            <script type="text/javascript">
+            </script>
+        </html:form>
+        <div class="modal efrmgen-modal fade" id="confirm-submit" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog efrmgen-modal-dialog modal-sm">
+                <div class="modal-content efrmgen-modal-content">
+                    <div class="modal-header efrmgen-modal-header text-center">
+                        <h4 class="modal-title"><i class="fa fa-exclamation-triangle efrmgen_alert_icon"></i> Alert!
+                        </h4>
+                    </div>
+                    <div class="modal-body efrmgen-modal-body text-center">
+                        <p class="efrmgen_alert_subtitle" id="">Please enter name of Candidate</p>
+                    </div>
+                    <div class="modal-footer efrmgen-modal-footer">
+                        <button type="button" class="btn btn-default  efrmgen-modal-custom" data-dismiss="modal"
+                            onclick="dissmissPopup();">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <input type="hidden" id="captchaType" name="captchaType" value="newCaptcha">
+<input type="hidden" id="appid" name="appid" value="1">
+ <input type="hidden" id="captchaOrgId" name="captchaOrgId" value="1">
+<input type="hidden" id="captchaName" name="captchaName" value="defaultCaptcha">
+<input type="hidden" id="captchaDiv" name="captchaDiv" value="captchaHolder">
+
+    </html:body>
+</html:html>
+  
+  
+     
+   
+   
+    
+	<script>
+	  document.getElementById("userid").value='';
+	</script>
+	<input type="hidden" name="loginHtmlPath" value="/html/form92721/login.html">
+	<input type="hidden" name="orgId" value="2245">
+	<input type="hidden" name="formId" value="92721">
+	<input type="hidden" name="userID" value="">
+	<input type="hidden" name="formLanguage" value="">
+	<input type="hidden" name="isPwdGenerationReq" value="N">
+	<input type="hidden" id="withdrawalFormId" name="withdrawalFormId" value=''/>
+	<input type="hidden" id="redirectFormId" name="redirectFormId" value=''/>
+	<input type="hidden" id="hash" name="hash" value=''/>
+	<input type="hidden" id="mobileGetPwd" name="mobileGetPwd" value=""/>
+	<input type="hidden" id="changePwd_success" name="changePwd_success" value='null'/>
+	<input type="hidden" id="copyrightYear" name="copyrightYear" value='2025'/>
+	<input type="hidden" name="data_deletion" id="data_deletion" value="Y"/>
+	<input type="hidden" name="consent_required" id="consent_required" value="Y"/>
+	<input type="hidden" name="consent_agreed" id="consent_agreed" value="0"/>
+	<input type="hidden" name="isFormMultilingualRequired" id="isFormMultilingualRequired" value="Y"/>
+	<input type="hidden" name="multilingualLanguageSelected" value="Hindi" id="multilingualLanguageSelected">
+
+<input type="hidden" name="loginHtmlPath" value="/html/form92721/login.html" id="loginHtmlPath">
+<input type="hidden" name="orgId" value="2245" id="orgId">
+<input type="hidden" name="formId" value="92721" id="formId">
+<input type="hidden" name="isPwdGenerationReq" value="N" id="isPwdGenerationReq">
+
+
+	  
+	<div id="mydiv" data-multilingualid="" data-multilingualdisplaytype="html"></div>
+	
+
+
+
+<div id="login1">
+<span data-staticKey="Please Enter UserId" id="loginalert1" style="display:none">Please Enter UserId </span></div>
+<div id="login2">
+<span data-staticKey="Please Enter Password." id="loginalert2" style="display:none">Please Enter Password. </span></div>
+<div id="login3">
+<span data-staticKey="Please enter the Captcha." id="loginalert3" style="display:none">Please enter the Captcha. </span></div>
+<div id="login4">
+<span data-staticKey="Please enter correct text shown in image" id="loginalert4" style="display:none">Please enter correct text shown in image </span></div>
+
+	
+   </form>	
+   
+  
+<script>
+
+$(window).on("load",function()
+{
+  setTimerForLoader();
+});
+
+</script>
+</body>
+  </html>
+
